@@ -65,15 +65,13 @@ const FormikUserForm = withFormik({
     terms: yup.boolean().oneOf([true], 'Must accept terms!')
   }),
   
-  handleSubmit(values, { setStatus }) {
+  handleSubmit(values, { setStatus, resetForm }) {
     axios
     .post("https://reqres.in/api/users/", values)
     .then(response => {
       console.log(response.data);
       setStatus(response.data);
-      // resetForm({ values });
-      // console.log(status);
-
+      resetForm({ ...values });
     })
     .catch(err => console.log(err.response));
   }
