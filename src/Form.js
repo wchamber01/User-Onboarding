@@ -10,8 +10,12 @@ console.log(values, 'values')
 
   useEffect (() => {
     status && setUsers(users => [...users, status]);
-    }, [status]);
+    }, [status])
     // console.log(users, 'users')
+
+    // if (values.email.string === 'waffle@syrup.com') {
+    //    <script> alert(Only pancakes and crepes allowed!)</script>
+    // }
 
   return(
     <div className='form'>
@@ -28,6 +32,15 @@ console.log(values, 'values')
         {touched.password && errors.password && 
         (<p className='errors'>{errors.password}</p>)}
 
+        <Field name='role' as="select" className="role">
+        <option> Please Choose Your Role...</option>
+        <option value="Oompa Loompa">Oompa Loompa</option>
+        <option value="Food Connoiseurd">Food Connoiseur</option>
+        <option value="Party Crasher">Party Crasher</option>
+        </Field>
+        {touched.role && errors.role && 
+        (<p className='errors'>{errors.role}</p>)}
+
         <label className="checkbox-container">
           Terms of Service</label>
         <Field type="checkbox" 
@@ -42,6 +55,7 @@ console.log(values, 'values')
         <ul key={person.id}>
           <li>Name: {person.name}</li>
           <li>Email: {person.email}</li>
+          <li>Role: {person.role}</li>
         </ul>
       ))}
     </div>
@@ -49,11 +63,12 @@ console.log(values, 'values')
 };
 
 const FormikUserForm = withFormik({
-  mapPropsToValues({name, email, password, terms}) {
+  mapPropsToValues({name, email, password, role, terms}) {
     return{
       name: name || "",
       email: email || "",
       password: password || "",
+      role: role || "",
       terms: terms || false
     };
   },
@@ -62,6 +77,7 @@ const FormikUserForm = withFormik({
     name: yup.string().required(),
     email:yup.string().required(),
     password: yup.string().required(),
+    role: yup.string().required(),
     terms: yup.boolean().oneOf([true], 'Must accept terms!')
   }),
   
